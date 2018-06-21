@@ -5,50 +5,43 @@
 import pythonwhois  # https://pypi.python.org/pypi/pythonwhois
 
 
-def whois(source):
+def whois(src):
     """
 
-    :param source:
+    :param src:
     :return:
     """
     try:
-        whois_data = list()
-        short_answer = pythonwhois.get_whois(source)
-        if short_answer.keys()
-        server = ''.join(map(str, short_answer['whois_server']))
-        large_raw_answer = pythonwhois.net.get_whois_raw(source, server=server)
-        parsed_large_raw_answer = pythonwhois.parse.parse_raw_whois(large_raw_answer)
-        whois_data.append(parsed_large_raw_answer)
-        if len(whois_data) != 0 and whois_data is not None:
-            return whois_data
+        short_resp = pythonwhois.get_whois(src)
+        if 'whois_server' in short_resp.keys():
+            server = ''.join(map(str, short_resp['whois_server']))
+            large_raw_resp = pythonwhois.net.get_whois_raw(src, server=server)
+            if len(large_raw_resp) != 0 and large_raw_resp is not None:
+                large_raw_resp = ''.join(map(str, large_raw_resp)).split('\n')
+                return parse_large_raw_response(large_raw_resp)
+        else:
+            whois_data = list()
+            whois_data.append(short_resp)
+            if len(whois_data) != 0 and whois_data is not None:
+                return whois_data
     except pythonwhois.shared.WhoisException as e:
         return None
 
 
-def whois_old(source):
+def parse_large_raw_response(whois_resp):
     """
-
-    :param source:
-    :return:
+    Parse a large raw answer of a whois query to a dictionary
+    :param whois_resp: A list with the large raw whois answer to parse
+    :return: A dictionary with the whois info
     """
-    try:
-        whois_data = list()
-        short_answer = pythonwhois.get_whois(source)
-        whois_data.append(short_answer)
-        if len(whois_data) != 0 and whois_data is not None:
-            return whois_data
-    except pythonwhois.shared.WhoisException as e:
+    if whois_resp is not None and len(whois_resp) > 0:
+        dict_response = dict()
+        for record in whois_resp:
+            if ':' in record:
+                tmp = record.split(':')
+                dict_response.update({tmp[0]: tmp[1]})
+        return dict_response
+    else:
         return None
 
 
-def get_whois_sever(source):
-    """
-
-    :param source:
-    :return:
-    """
-    try:
-        server = pythonwhois.net.get_root_server(source)
-        print(server)
-    except Exception as e:
-        print('No server')

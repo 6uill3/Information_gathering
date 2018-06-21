@@ -2,6 +2,8 @@
 # -*-coding: utf-8-*-
 
 
+# https://pypi.org/project/dnspython/
+# http://www.dnspython.org/
 import dns.resolver
 import dns.reversename
 import dns.query

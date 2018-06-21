@@ -148,6 +148,35 @@ def zt_command_line(record):
     print('')
 
 
+# def whois_command_line(data):
+#     """
+#     Prints the whois info in command line
+#     :param data: A list of dicts. Each dict contain a key and a list of values
+#     :return:
+#     """
+#     try:
+#         query = 'WHOIS INFO'
+#         print('-' * (len(query) + 1))
+#         print(query)
+#         print('-' * (len(query) + 1))
+#         if data is not None:
+#             for dictionary in data:
+#                 try:
+#                     del dictionary['raw']
+#                 except Exception as e:
+#                     pass
+#                 for key, values in dictionary.items():
+#                     for value in values:
+#                         print('{} {}'.format(key.ljust(20, ' '), value))
+#             print('')
+#         else:
+#             print('No Whois info')
+#             print('')
+#     except Exception as e:
+#         print('No Whois info')
+#         print('')
+
+
 def whois_command_line(data):
     """
     Prints the whois info in command line
@@ -159,19 +188,9 @@ def whois_command_line(data):
         print('-' * (len(query) + 1))
         print(query)
         print('-' * (len(query) + 1))
-        if data is not None:
-            for dictionary in data:
-                try:
-                    del dictionary['raw']
-                except Exception as e:
-                    pass
-                for key, values in dictionary.items():
-                    for value in values:
-                        print('{} {}'.format(key.ljust(20, ' '), value))
-            print('')
-        else:
-            print('No Whois info')
-            print('')
+        for key, value in data.items():
+            print('{}: {}'.format(key, value))
+        print('')
     except Exception as e:
         print('No Whois info')
         print('')

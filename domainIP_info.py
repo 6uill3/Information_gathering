@@ -46,7 +46,7 @@ def main():
         domain_list = checker.check_domain(domain_list)
         if domain_list is not None:
             for domain in domain_list:
-                gui.whois_command_line(whois_info.whois_old(domain))
+                # gui.whois_command_line(whois_info.whois_old(domain))
                 gui.whois_command_line(whois_info.whois(domain))
                 dns_info.domain_info(domain)
 
